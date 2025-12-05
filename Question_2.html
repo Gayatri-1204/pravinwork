@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Question 2</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ffecd2, #fcb69f);
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      color: #4a0e2e;
+    }
+    .options {
+      margin-top: 20px;
+    }
+    label {
+      display: block;
+      margin: 10px auto;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      font-size: 18px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background: #6a00f4;
+      color: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: 0.2s;
+    }
+    button:hover {
+      background: #00c2ff;
+    }
+    .feedback {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .clue {
+      margin-top: 15px;
+      font-size: 18px;
+      color: #2d0a18;
+    }
+  </style>
+</head>
+<body>
+  <h1>Question 2</h1>
+  <p>What is my most used word when I call you?</p>
+
+  <form id="quizForm">
+    <div class="options">
+      <label><input type="radio" name="answer" value="Jaanu"> Jaanu</label>
+      <label><input type="radio" name="answer" value="Dholya"> Dholya</label>
+      <label><input type="radio" name="answer" value="Shona"> Shona</label>
+      <label><input type="radio" name="answer" value="Baby"> Baby</label>
+    </div>
+    <button type="button" onclick="checkAnswer()">Submit</button>
+  </form>
+
+  <div class="feedback" id="feedback"></div>
+  <div class="clue" id="clue"></div>
+
+  <script>
+    function checkAnswer() {
+      const selected = document.querySelector('input[name="answer"]:checked');
+      if(!selected) {
+        document.getElementById("feedback").innerText = "Please select an option!";
+        return;
+      }
+      if(selected.value === "Dholya") {
+        document.getElementById("feedback").innerText = "Correct! 🎉";
+        document.getElementById("clue").innerText = "The next QR code is sneaky… it’s on the door of one of the three rooms. Can you spot it? 🕵️‍♂️🔍";
+      } else {
+        document.getElementById("feedback").innerText = "Oops, try again!";
+        document.getElementById("clue").innerText = "";
+      }
+    }
+  </script>
+</body>
+</html>
