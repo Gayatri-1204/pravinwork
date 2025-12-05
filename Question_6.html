@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Question 6</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #ffe4e1; /* light romantic pink */
+      text-align: center;
+      padding: 40px;
+      position: relative;
+      overflow:hidden;
+    }
+    h1 {
+      color: #b03060; /* deep rose */
+    }
+    .options {
+      margin-top: 20px;
+    }
+    label {
+      display: block;
+      margin: 10px auto;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      font-size: 18px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background: #ff4d6d; /* red-pink button */
+      color: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: 0.2s;
+    }
+    button:hover {
+      background: #ff6b81;
+    }
+    .feedback {
+      margin-top: 20px;
+      font-size: 22px;
+      font-weight: bold;
+      color: #c71585;
+    }
+    .clue {
+      margin-top: 15px;
+      font-size: 18px;
+      color: #5a2a6d;
+    }
+    /* Static red hearts background */
+    .heart-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Red_Heart.svg/1024px-Red_Heart.svg.png");
+      background-size: 60px 60px;
+      background-repeat: repeat;
+      opacity: 0.15;
+    }
+    /* Flying emojis */
+    .emoji {
+      position: absolute;
+      font-size: 28px;
+      animation: floatUp 8s linear forwards;
+      opacity: 0.9;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) scale(1); opacity:1; }
+      100% { transform: translateY(-10vh) scale(1.3); opacity:0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="heart-bg"></div>
+
+  <h1>Question 6</h1>
+  <p>Do I like long drives or short walks more?</p>
+
+  <form id="quizForm">
+    <div class="options">
+      <label><input type="radio" name="answer" value="Long drives"> Long drives</label>
+      <label><input type="radio" name="answer" value="Jogging"> Jogging</label>
+      <label><input type="radio" name="answer" value="Cycling"> Cycling</label>
+      <label><input type="radio" name="answer" value="Short walks"> Short walks</label>
+    </div>
+    <button type="button" onclick="checkAnswer()">Submit</button>
+  </form>
+
+  <div class="feedback" id="feedback"></div>
+  <div class="clue" id="clue"></div>
+
+  <!-- Flying emojis container -->
+  <div id="emojiContainer"></div>
+
+  <script>
+    function checkAnswer() {
+      const selected = document.querySelector('input[name="answer"]:checked');
+      if(!selected) {
+        document.getElementById("feedback").innerText = "Please select an option!";
+        return;
+      }
+      if(selected.value === "Long drives") {
+        document.getElementById("feedback").innerText = "Correct! 🎉❤️";
+        document.getElementById("clue").innerText = "Now, open the door… the last and final QR code is waiting for you inside the locker! 🔐✨";
+        spawnEmojis();
+      } else {
+        document.getElementById("feedback").innerText = "Hmm, sweet guess—but not the right one 🌸 Try again!";
+        document.getElementById("clue").innerText = "";
+      }
+    }
+
+    // Flying random emojis
+    function spawnEmojis(){
+      const emojis = ["❤️","🌸","💖","✨","🎉","💐","😍"];
+      const container = document.getElementById("emojiContainer");
+      for(let i=0;i<20;i++){
+        const span = document.createElement("span");
+        span.className="emoji";
+        span.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+        span.style.left = Math.random()*100 + "vw";
+        span.style.animationDuration = (5+Math.random()*5)+"s";
+        container.appendChild(span);
+        setTimeout(()=>span.remove(),8000);
+      }
+    }
+  </script>
+</body>
+</html>
