@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Question 1</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #ffe6f0, #ffccff);
+      color: #800000;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+    .card {
+      max-width: 480px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+    button {
+      padding: 10px 16px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      background: #800000;
+      color: #fff;
+      cursor: pointer;
+    }
+    button:active { transform: scale(0.98); }
+    .option { text-align: left; margin: 8px 0; }
+    #result { font-weight: bold; margin-top: 16px; }
+  </style>
+  <script>
+    function checkAnswer() {
+      var radios = document.getElementsByName('option');
+      var selected = "";
+      for (var i = 0; i < radios.length; i++) {
+        if (radios[i].checked) { selected = radios[i].value; break; }
+      }
+      var resultEl = document.getElementById('result');
+      if (!selected) {
+        resultEl.textContent = "Please select an option.";
+        return;
+      }
+      if (selected === "Yeh Jawaani Hai Deewani") {
+        resultEl.textContent = "Correct! Your next clue is chilling where the cold drinks live… check the door carefully! 🥤❄️";
+      } else {
+        resultEl.textContent = "Wrong answer. Try again!";
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="card">
+    <h2>Question 1</h2>
+    <p>What was our first movie together?</p>
+    <form>
+      <div class="option">
+        <label><input type="radio" name="option" value="Jab We Met"> Jab We Met</label>
+      </div>
+      <div class="option">
+        <label><input type="radio" name="option" value="Zindagi Na Milegi Dobara"> Zindagi Na Milegi Dobara</label>
+      </div>
+      <div class="option">
+        <label><input type="radio" name="option" value="Barfi"> Barfi</label>
+      </div>
+      <div class="option">
+        <label><input type="radio" name="option" value="Yeh Jawaani Hai Deewani"> Yeh Jawaani Hai Deewani</label>
+      </div>
+      <br>
+      <button type="button" onclick="checkAnswer()">Submit</button>
+    </form>
+    <p id="result"></p>
+  </div>
+</body>
+</html>
