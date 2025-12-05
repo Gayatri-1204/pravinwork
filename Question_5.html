@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Question 5</title>
+  <title>Dream Trip Question</title>
   <style>
     body {
       font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #fff0f5, #ffe4e1); /* light romantic pink */
+      background: linear-gradient(135deg, #ffe4e1, #ffb6c1, #ffd1dc); /* romantic pink gradient */
       text-align: center;
       padding: 40px;
       overflow:hidden;
@@ -65,7 +65,7 @@
   </style>
 </head>
 <body>
-  <h1>Question 5</h1>
+  <h1>Dream Trip Question</h1>
   <p>What is the 1st trip and dream trip we always talk about?</p>
 
   <form id="quizForm">
@@ -93,10 +93,10 @@
       }
       if(selected.value === "Paris") {
         document.getElementById("feedback").innerText = "Correct! 🎉❤️";
-        document.getElementById("clue").innerText = "Your next QR code is hiding on the place where all the money sleeps… can you find it? 💰🕵️‍♂️";
+        document.getElementById("clue").innerText = "Your next QR code is hiding on the place where all the money sleeps… 💰🕵️‍♂️";
         spawnHearts();
       } else {
-        document.getElementById("feedback").innerText = ""Aww, cute choice—but not our story yet 🌸";
+        document.getElementById("feedback").innerText = "Aww, cute choice—but not our story yet 🌸 Try again!";
         document.getElementById("clue").innerText = "";
       }
     }
