@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Question 5</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #fff0f5, #ffe4e1); /* light romantic pink */
+      text-align: center;
+      padding: 40px;
+      overflow:hidden;
+    }
+    h1 {
+      color: #b03060; /* deep rose */
+    }
+    .options {
+      margin-top: 20px;
+    }
+    label {
+      display: block;
+      margin: 10px auto;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      font-size: 18px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background: #ff4d6d; /* red-pink button */
+      color: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: 0.2s;
+    }
+    button:hover {
+      background: #ff6b81;
+    }
+    .feedback {
+      margin-top: 20px;
+      font-size: 22px;
+      font-weight: bold;
+      color: #c71585;
+    }
+    .clue {
+      margin-top: 15px;
+      font-size: 18px;
+      color: #5a2a6d;
+    }
+    /* Floating red hearts */
+    .heart {
+      position: absolute;
+      font-size: 28px;
+      color: red;
+      animation: floatUp 8s linear forwards;
+      opacity: 0.9;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) scale(1); opacity:1; }
+      100% { transform: translateY(-10vh) scale(1.3); opacity:0; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Question 5</h1>
+  <p>Which pair is correct?</p>
+
+  <form id="quizForm">
+    <div class="options">
+      <label><input type="radio" name="answer" value="Mahabaleshwar"> Mahabaleshwar & Dubai</label>
+      <label><input type="radio" name="answer" value="Paris"> Matheran & Paris</label>
+      <label><input type="radio" name="answer" value="Switzerland"> Lonavala & Switzerland</label>
+      <label><input type="radio" name="answer" value="Maldives"> Matheran & Maldives</label>
+    </div>
+    <button type="button" onclick="checkAnswer()">Submit</button>
+  </form>
+
+  <div class="feedback" id="feedback"></div>
+  <div class="clue" id="clue"></div>
+
+  <!-- Floating hearts container -->
+  <div id="heartContainer"></div>
+
+  <script>
+    function checkAnswer() {
+      const selected = document.querySelector('input[name="answer"]:checked');
+      if(!selected) {
+        document.getElementById("feedback").innerText = "Please select an option!";
+        return;
+      }
+      if(selected.value === "Paris") {
+        document.getElementById("feedback").innerText = "Correct! 🎉❤️";
+        document.getElementById("clue").innerText = "Your next QR code is hiding on the place where all the money sleeps… can you find it? 💰🕵️‍♂️";
+        spawnHearts();
+      } else {
+        document.getElementById("feedback").innerText = ""Aww, cute choice—but not our story yet 🌸";
+        document.getElementById("clue").innerText = "";
+      }
+    }
+
+    // Floating red hearts
+    function spawnHearts(){
+      const container = document.getElementById("heartContainer");
+      for(let i=0;i<20;i++){
+        const span = document.createElement("span");
+        span.className="heart";
+        span.innerText = "❤️";
+        span.style.left = Math.random()*100 + "vw";
+        span.style.animationDuration = (5+Math.random()*5)+"s";
+        container.appendChild(span);
+        setTimeout(()=>span.remove(),8000);
+      }
+    }
+  </script>
+</body>
+</html>
