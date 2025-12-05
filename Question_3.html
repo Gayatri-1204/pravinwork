@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Question 3</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      text-align: center;
+      padding: 40px;
+      overflow:hidden;
+    }
+    h1 {
+      color: #4a0e2e;
+    }
+    .options {
+      margin-top: 20px;
+    }
+    label {
+      display: block;
+      margin: 10px auto;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      font-size: 18px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background: #ff4d6d;
+      color: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: 0.2s;
+    }
+    button:hover {
+      background: #ff85a1;
+    }
+    .feedback {
+      margin-top: 20px;
+      font-size: 22px;
+      font-weight: bold;
+      color: #d10068;
+    }
+    .clue {
+      margin-top: 15px;
+      font-size: 18px;
+      color: #2d0a18;
+    }
+    /* Floating emojis */
+    .emoji {
+      position: absolute;
+      font-size: 28px;
+      animation: floatUp 8s linear infinite;
+      opacity: 0.9;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) scale(1); opacity:1; }
+      100% { transform: translateY(-10vh) scale(1.3); opacity:0; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Question 3</h1>
+  <p>My favourite colour, dish and sweet?</p>
+
+  <form id="quizForm">
+    <div class="options">
+      <label><input type="radio" name="answer" value="Yellow"> Yellow, Misal Pav, Kaju Katli</label>
+      <label><input type="radio" name="answer" value="Blue"> Blue, Fish, Chocolate Cake</label>
+      <label><input type="radio" name="answer" value="Red"> Red, Paneer, Gulab Jamun</label>
+      <label><input type="radio" name="answer" value="Black"> Black, Chicken Biryani, Rasgulla</label>
+    </div>
+    <button type="button" onclick="checkAnswer()">Submit</button>
+  </form>
+
+  <div class="feedback" id="feedback"></div>
+  <div class="clue" id="clue"></div>
+
+  <!-- Floating emojis container -->
+  <div id="emojiContainer"></div>
+
+  <script>
+    function checkAnswer() {
+      const selected = document.querySelector('input[name="answer"]:checked');
+      if(!selected) {
+        document.getElementById("feedback").innerText = "Please select an option!";
+        return;
+      }
+      if(selected.value === "Blue") {
+        document.getElementById("feedback").innerText = "Correct! 🎉💖🎈";
+        document.getElementById("clue").innerText = "The next clue is tucked away in the bag of one of your friends. Time to investigate! 🎒✨";
+        spawnEmojis();
+      } else {
+        document.getElementById("feedback").innerText = "Oops, try again!";
+        document.getElementById("clue").innerText = "";
+      }
+    }
+
+    // Floating emojis (hearts + balloons)
+    function spawnEmojis(){
+      const container = document.getElementById("emojiContainer");
+      const emojis = ["❤️","💖","💕","🎈","💞","💓"];
+      for(let i=0;i<20;i++){
+        const span = document.createElement("span");
+        span.className="emoji";
+        span.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+        span.style.left = Math.random()*100 + "vw";
+        span.style.animationDuration = (5+Math.random()*5)+"s";
+        container.appendChild(span);
+        setTimeout(()=>span.remove(),8000);
+      }
+    }
+  </script>
+</body>
+</html>
