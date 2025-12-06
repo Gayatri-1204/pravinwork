@@ -77,24 +77,25 @@
     }
     .reveal-message {
       display: none;
-      font-size: 18px;
+      font-size: 16px;
       color: #5a2a6d;
       text-align: left;
       white-space: pre-line;
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 500px;
+      max-height: 70vh;
       background: #fff;
-      padding: 30px;
+      padding: 25px;
       overflow-y: auto;
       box-sizing: border-box;
       z-index: 2000;
-      animation: none;
-      transform: none;
+      border-radius: 20px;
+      box-shadow: 0 0 20px #ff4d6d;
     }
-    /* Flying hearts */
     .heart {
       position: absolute;
       font-size: 24px;
@@ -146,7 +147,6 @@ Today, this little gift is just a small token of how much I appreciate you — f
 “Thank you for being my heart, my strength, and my everything. With you, even the hardest storms turn into sunshine.”  
   </div>
 
-  <!-- Flying hearts container -->
   <div id="heartContainer"></div>
 
   <script>
@@ -188,7 +188,7 @@ Today, this little gift is just a small token of how much I appreciate you — f
         span.style.animationDuration = (4+Math.random()*4)+"s";
         container.appendChild(span);
         setTimeout(()=>span.remove(),8000);
-      },500); // दर 0.5 सेकंदाला एक heart
+      },500);
     }
   </script>
 </body>
