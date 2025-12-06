@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Grand Finale 💖✨</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #fff0f5;
+      text-align: center;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    h1 {
+      color: #b03060;
+    }
+    .options {
+      margin-top: 20px;
+    }
+    label {
+      display: block;
+      margin: 10px auto;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      font-size: 18px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background: #ff4d6d;
+      color: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: 0.2s;
+    }
+    button:hover {
+      background: #ff6b81;
+    }
+    .feedback {
+      margin-top: 20px;
+      font-size: 22px;
+      font-weight: bold;
+      color: #c71585;
+    }
+    .glow-box {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border: 3px solid #ff4d6d;
+      border-radius: 20px;
+      padding: 30px;
+      width: 80%;
+      max-width: 600px;
+      box-shadow: 0 0 20px #ff4d6d, 0 0 40px #ff6b81;
+      z-index: 1000;
+      text-align: center;
+    }
+    .close-btn {
+      display: block;
+      margin: 20px auto 0 auto;
+      background: #ff4d6d;
+      color: white;
+      border-radius: 50%;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+    }
+    .reveal-message {
+      display: none;
+      font-size: 18px;
+      color: #5a2a6d;
+      text-align: left;
+      white-space: pre-line;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      padding: 30px;
+      overflow-y: auto;
+      box-sizing: border-box;
+      z-index: 2000;
+      animation: none;
+      transform: none;
+    }
+    /* Flying hearts */
+    .heart {
+      position: absolute;
+      font-size: 24px;
+      animation: floatUp 6s linear forwards;
+      opacity: 0.8;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) scale(1); opacity:1; }
+      100% { transform: translateY(-10vh) scale(1.5); opacity:0; }
+    }
+  </style>
+</head>
+<body onload="spawnHearts()">
+  <h1>Grand Finale 💖✨</h1>
+  <p>What did I gift you on your first birthday after marriage?</p>
+
+  <form id="quizForm">
+    <div class="options">
+      <label><input type="radio" name="answer" value="Watch"> Watch</label>
+      <label><input type="radio" name="answer" value="Headphones"> Headphones</label>
+      <label><input type="radio" name="answer" value="Shoes"> Shoes</label>
+      <label><input type="radio" name="answer" value="Wallet"> Wallet</label>
+    </div>
+    <button type="button" onclick="checkAnswer()">Submit</button>
+  </form>
+
+  <div class="feedback" id="feedback"></div>
+
+  <div class="glow-box" id="glowBox">
+    <h2>✨💖 Congratulations, My Love! 💖✨</h2>
+    <p>You found the final surprise! Click the heart to reveal…</p>
+    <button class="close-btn" onclick="showMessage()">❤️</button>
+  </div>
+
+  <div class="reveal-message" id="finalMessage">
+✨💖 Congratulations, My Love! 💖✨
+
+You’ve answered every question from the heart… and it shows how truly amazing you are.  
+Through every joy and every storm, you have stood tall and never faltered. You were my rock when life tested us — supporting me, encouraging me, and holding me up when I needed it most.  
+
+Because of your love and strength, we have overcome pain, healed, and embraced a beautiful new journey together.  
+Now, with our twin blessings — our little boy and girl, every laugh, every hug, and every little moment reminds me that you are not just my partner, but my anchor, my support, and my safe place.  
+
+Today, this little gift is just a small token of how much I appreciate you — for your unwavering love, your courage, and the life we’re building together.  
+
+💝 Your reward: iPhone 17 — because someone as caring, loving, and incredible as you deserves nothing but the best.  
+
+“Thank you for being my heart, my strength, and my everything. With you, even the hardest storms turn into sunshine.”  
+  </div>
+
+  <!-- Flying hearts container -->
+  <div id="heartContainer"></div>
+
+  <script>
+    function checkAnswer() {
+      const selected = document.querySelector('input[name="answer"]:checked');
+      if (!selected) {
+        document.getElementById("feedback").innerText = "Please select an option!";
+        return;
+      }
+      if (selected.value.toLowerCase() === "watch") {
+        document.getElementById("feedback").innerText = "Correct! 🎉❤️";
+        document.getElementById("glowBox").style.display = "block";
+      } else {
+        const wrongMessages = [
+          "Oops! Not quite right 🌸 Try again!",
+          "Sweet guess, but not the gift 💕",
+          "Close… but the watch was the memory ⌚❤️",
+          "Haha, cute choice 😍 but wrong!",
+          "Nope! Keep searching for the final clue 🔍✨"
+        ];
+        const randomMsg = wrongMessages[Math.floor(Math.random() * wrongMessages.length)];
+        document.getElementById("feedback").innerText = randomMsg;
+      }
+    }
+
+    function showMessage() {
+      document.getElementById("glowBox").style.display = "none";
+      document.getElementById("quizForm").style.display = "none";
+      document.getElementById("feedback").style.display = "none";
+      document.querySelector("h1").style.display = "none";
+      document.querySelector("p").style.display = "none";
+      document.getElementById("finalMessage").style.display = "block";
+    }
+
+    function spawnHearts(){
+      const container = document.getElementById("heartContainer");
+      setInterval(()=>{
+        const span = document.createElement("span");
+        span.className="heart";
+        span.innerText="❤️";
+        span.style.left = Math.random()*100 + "vw";
+        span.style.fontSize = (20+Math.random()*20)+"px";
+        span.style.animationDuration = (4+Math.random()*4)+"s";
+        container.appendChild(span);
+        setTimeout(()=>span.remove(),8000);
+      },500); // दर 0.5 सेकंदाला एक heart
+    }
+  </script>
+</body>
+</html>
