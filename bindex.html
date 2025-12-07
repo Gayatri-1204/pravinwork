@@ -216,19 +216,29 @@
 <body>
 
   <!-- Home -->
-  <section id="home" class="section show" aria-label="Home">
-    <h1>🎂 वाढदिवसाच्या हार्दिक शुभेच्छा 🎂</h1>
-    <div class="balloons">
-      <span class="balloon">🎈</span>
-      <span class="balloon">🎈</span>
-      <span class="balloon">🎈</span>
-    </div>
-    <div class="menu" role="navigation" aria-label="Main menu">
-      <button class="btn" onclick="showSection('gallery')">📸 Gallery</button>
-      <button class="btn" onclick="showSection('surprise')">🎁 Surprise</button>
-      <button class="btn" onclick="showSection('message')">💌 Message</button>
-    </div>
-  </section>
+<section id="home" class="section show" aria-label="Home">
+  <h1>🎂 वाढदिवसाच्या हार्दिक शुभेच्छा 🎂</h1>
+
+  <!-- मोठा फोटो -->
+  <div style="margin:20px 0;">
+    <img src="prince.jpg.jpeg" alt="Main Photo" 
+         style="max-width:90%; height:auto; border-radius:20px; box-shadow:0 0 25px #d63384;">
+  </div>
+
+  <!-- Balloons -->
+  <div class="balloons">
+    <span class="balloon">🎈</span>
+    <span class="balloon">🎈</span>
+    <span class="balloon">🎈</span>
+  </div>
+
+  <!-- Buttons -->
+  <div class="menu" role="navigation" aria-label="Main menu">
+    <button class="btn" onclick="showSection('gallery')">📸 Gallery</button>
+    <button class="btn" onclick="showSection('surprise')">🎁 Surprise</button>
+    <button class="btn" onclick="showSection('message')">💌 Message</button>
+  </div>
+</section>
 
   <!-- Gallery -->
   <section id="gallery" class="section" aria-label="Gallery">
