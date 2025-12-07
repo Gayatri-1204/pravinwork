@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Birthday Surprise</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --pink: #d63384;
+      --bg1: #ff9a9e;
+      --bg2: #fad0c4;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #222;
+      text-align: center;
+      padding: 40px 24px;
+    }
+
+    h1 { color: var(--pink); text-shadow: 2px 2px #fff; margin: 0 0 8px; }
+    h2 { color: var(--pink); margin: 0 0 16px; }
+
+    /* Balloons */
+    .balloons {
+      font-size: 40px;
+      display: flex; gap: 8px; align-items: center; justify-content: center;
+      margin: 10px 0 24px;
+    }
+    .balloon { display: inline-block; animation: float 3s infinite ease-in-out; }
+    .balloon:nth-child(2) { animation-delay: 0.2s; }
+    .balloon:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-18px); }
+      100% { transform: translateY(0); }
+    }
+
+    /* Menu buttons */
+    .menu {
+      display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 10px;
+    }
+    .btn {
+      background: var(--pink);
+      color: #fff;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.25s ease;
+    }
+    .btn:hover { background: #a61e5d; transform: translateY(-2px); }
+    .btn:active { transform: translateY(0); }
+
+    /* Sections */
+    .section { display: none; margin-top: 28px; }
+    .section.show { display: block; }
+    .back-home { margin-top: 18px; }
+
+    /* Gallery grid 3-3-3 */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+      justify-items: center;
+      align-items: start;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .cat-photo {
+      width: 180px; height: 180px; object-fit: cover;
+      border-radius: 16px;
+      box-shadow: 0 0 15px rgba(214, 51, 132, 0.6);
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      background: #fff;
+    }
+    .cat-photo:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 22px rgba(214, 51, 132, 0.75);
+    }
+
+    /* Surprise: glow box + reveal */
+    .glow-box {
+      display: inline-block;
+      background: #fff0f5;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 25px var(--pink);
+      animation: glowPulse 2s infinite;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    @keyframes glowPulse {
+      0% { box-shadow: 0 0 15px var(--pink); }
+      50% { box-shadow: 0 0 30px var(--pink); }
+      100% { box-shadow: 0 0 15px var(--pink); }
+    }
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: red;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.25); }
+      100% { transform: scale(1); }
+    }
+    .reveal-message {
+      margin-top: 20px;
+      font-size: 18px;
+      color: var(--pink);
+      background: #fff0f5;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 25px var(--pink);
+      text-align: left;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+    .reveal-gallery {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .reveal-photo {
+      width: 220px;
+      max-width: 42vw;
+      border-radius: 12px;
+      box-shadow: 0 0 12px var(--pink);
+      background: #fff;
+    }
+
+    /* Message section (independent, red background, floating emojis) */
+    #message {
+      background: red;
+      padding: 30px;
+      border-radius: 16px;
+      max-width: 780px;
+      margin: 0 auto;
+      box-shadow: 0 0 24px rgba(255, 0, 0, 0.5);
+    }
+    #message h2 { color: #fff; margin-bottom: 10px; }
+    #message .message-box {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 12px;
+      padding: 18px;
+      color: #fff;
+      font-size: 20px;
+      line-height: 1.6;
+    }
+
+    /* Popup modal (for gallery & message button on home, if used) */
+    .modal-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center; justify-content: center;
+      z-index: 999;
+    }
+    .modal-backdrop.show { display: flex; }
+    .popup {
+      background: #fff0f5;
+      color: var(--pink);
+      padding: 20px 22px;
+      border-radius: 16px;
+      box-shadow: 0 0 25px var(--pink);
+      text-align: center;
+      position: relative;
+      max-width: 360px;
+      width: calc(100vw - 48px);
+      animation: fadeIn 0.5s ease;
+    }
+    .popup img {
+      width: 180px; max-width: 80%;
+      border-radius: 12px; margin-bottom: 12px;
+      box-shadow: 0 0 12px var(--pink); background: #fff;
+    }
+    .popup-text { font-size: 18px; margin-bottom: 6px; }
+    .close-icon {
+      position: absolute; top: 10px; right: 12px;
+      font-size: 26px; cursor: pointer; color: red;
+      animation: pulse 1.5s infinite; user-select: none;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.88); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Floating hearts/emojis */
+    .floating-heart {
+      position: fixed;
+      font-size: 24px;
+      animation: floatUp 2.8s linear forwards;
+      z-index: 1000;
+      pointer-events: none;
+      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+    }
+    @keyframes floatUp {
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-220px); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Home -->
+  <section id="home" class="section show" aria-label="Home">
+    <h1>🎂 वाढदिवसाच्या हार्दिक शुभेच्छा 🎂</h1>
+    <div class="balloons">
+      <span class="balloon">🎈</span>
+      <span class="balloon">🎈</span>
+      <span class="balloon">🎈</span>
+    </div>
+    <div class="menu" role="navigation" aria-label="Main menu">
+      <button class="btn" onclick="showSection('gallery')">📸 Gallery</button>
+      <button class="btn" onclick="showSection('surprise')">🎁 Surprise</button>
+      <button class="btn" onclick="showSection('message')">💌 Message</button>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section id="gallery" class="section" aria-label="Gallery">
+    <h2>📸 Your Special Photos</h2>
+    <div class="gallery-grid">
+      <!-- Row 1 -->
+      <img src="gayatri1.jpg" alt="Photo 1" class="cat-photo"
+           onclick="showPhotoPopup('gayatri1.jpg','You make every moment magical 💫')">
+      <img src="gayatri2.jpg" alt="Photo 2" class="cat-photo"
+           onclick="showPhotoPopup('gayatri2.jpg','Your smile lights up my world 🌟')">
+      <img src="gayatri3.jpg" alt="Photo 3" class="cat-photo"
+           onclick="showPhotoPopup('gayatri3.jpg','You are my favorite memory 💖')">
+      <!-- Row 2 -->
+      <img src="gayatri4.jpg" alt="Photo 4" class="cat-photo"
+           onclick="showPhotoPopup('gayatri4.jpg','You shine brighter than the stars ✨')">
+      <img src="gayatri5.jpg" alt="Photo 5" class="cat-photo"
+           onclick="showPhotoPopup('gayatri5.jpg','You are the reason I believe in love 💌')">
+      <img src="gayatri6.jpg" alt="Photo 6" class="cat-photo"
+           onclick="showPhotoPopup('gayatri6.jpg','You are my forever person 🥰')">
+      <!-- Row 3 -->
+      <img src="gayatri7.jpg" alt="Photo 7" class="cat-photo"
+           onclick="showPhotoPopup('gayatri7.jpg','Every day with you is a gift 🎁')">
+      <img src="gayatri8.jpg" alt="Photo 8" class="cat-photo"
+           onclick="showPhotoPopup('gayatri8.jpg','You are my dream come true 🌙')">
+      <img src="gayatri9.jpg" alt="Photo 9" class="cat-photo"
+           onclick="showPhotoPopup('gayatri9.jpg','Forever yours, forever mine 💞')">
+    </div>
+    <div class="back-home">
+      <button class="btn" onclick="showSection('home')">🏠 Back Home</button>
+    </div>
+  </section>
+
+  <!-- Surprise -->
+  <section id="surprise" class="section" aria-label="Surprise">
+    <h2>🎁 Surprise!</h2>
+
+    <!-- Glow Box stage -->
+    <div class="glow-box" id="glowBox">
+      <h2>✨💖 Congratulations, My Love! 💖✨</h2>
+      <p>You found the final surprise! Click the heart to reveal…</p>
+      <button class="close-btn" onclick="showFinalMessage()">❤️</button>
+    </div>
+
+    <!-- Final Message (revealed after heart click) -->
+    <div class="reveal-message" id="finalMessage" style="display:none;">
+      <div class="reveal-gallery">
+        <img src="family1.jpg" alt="Family Photo 1" class="reveal-photo">
+        <img src="family2.jpg" alt="Family Photo 2" class="reveal-photo">
+      </div>
+      <p>
+        ✨💖 Congratulations, My Love! 💖✨<br><br>
+        You’ve answered every question from the heart… and it shows how truly amazing you are.<br><br>
+        Through every joy and every storm, you have stood tall and never faltered. You were my rock when life tested us — supporting me, encouraging me, and holding me up when I needed it most.<br><br>
+        Because of your love and strength, we have overcome pain, healed, and embraced a beautiful new journey together.<br>
+        Now, with our twin blessings — our little boy and girl, every laugh, every hug, and every little moment reminds me that you are not just my partner, but my anchor, my support, and my safe place.<br><br>
+        Today, this little gift is just a small token of how much I appreciate you — for your unwavering love, your courage, and the life we’re building together.<br><br>
+        💝 Your reward: iPhone 17 — because someone as caring, loving, and incredible as you deserves nothing but the best.<br><br>
+        “Thank you for being my heart, my strength, and my everything. With you, even the hardest storms turn into sunshine.”
+      </p>
+    </div>
+
+    <div class="back-home">
+      <button class="btn" onclick="showSection('home')">🏠 Back Home</button>
+    </div>
+  </section>
+
+  <!-- Message (independent section with red background and floating emojis) -->
+  <section id="message" class="section" aria-label="Message">
+    <h2>💌 Special Message</h2>
+    <div class="message-box">
+      ❤️🤗😘😊<br><br>
+      Love you forever! You are my heart, my strength, and my happiness 💖
+    </div>
+    <div class="back-home">
+      <button class="btn" onclick="showSection('home')">🏠 Back Home</button>
+    </div>
+  </section>
+
+  <!-- Modal for gallery/message popups (if needed) -->
+  <div id="modal-backdrop" class="modal-backdrop" aria-hidden="true">
+    <div id="popup-message" class="popup" role="dialog" aria-modal="true" aria-label="Popup message">
+      <span class="close-icon" onclick="closePopup()" title="Close">❤️</span>
+      <!-- Dynamic content injected by JS -->
+    </div>
+  </div>
+
+  <script>
+    // Section switching + Surprise reset + Message emojis
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('show'));
+      document.getElementById(id).classList.add('show');
+
+      // Reset Surprise flow on every open
+      if (id === 'surprise') {
+        const glow = document.getElementById('glowBox');
+        const msg = document.getElementById('finalMessage');
+        if (glow && msg) {
+          glow.style.display = 'inline-block';
+          msg.style.display = 'none';
+        }
+      }
+
+      // Spawn emojis when Message section opens
+      if (id === 'message') {
+        spawnEmojis(12); // number of emojis to float
+      }
+    }
+
+    // Gallery: popup with photo + message
+    function showPhotoPopup(imgSrc, message) {
+      const backdrop = document.getElementById('modal-backdrop');
+      const popup = document.getElementById('popup-message');
+      popup.innerHTML = `
+        <span class="close-icon" onclick="closePopup()" title="Close">❤️</span>
+        <img src="${imgSrc}" alt="Selected photo" />
+        <div class="popup-text">${message}</div>
+      `;
+      backdrop.classList.add('show');
+      spawnFloatingHearts(6);
+    }
+
+    // Surprise: glow-box → reveal final message with 2 photos
+    function showFinalMessage() {
+      const glow = document.getElementById('glowBox');
+      const msg = document.getElementById('finalMessage');
+      if (glow && msg) {
+        glow.style.display = 'none';
+        msg.style.display = 'block';
+      }
+      spawnFloatingHearts(8);
+    }
+
+    // Close popup only via heart
+    function closePopup() {
+      document.getElementById('modal-backdrop').classList.remove('show');
+    }
+
+    // Floating hearts (for popups and surprise)
+    function spawnFloatingHearts(count = 5) {
+      for (let i = 0; i < count; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'floating-heart';
+        heart.textContent = '❤️';
+        heart.style.left = (Math.random() * 90 + 5) + '%';
+        heart.style.bottom = '24px';
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 3000);
+      }
+    }
+
+    // Floating emojis for Message section
+    function spawnEmojis(count = 10) {
+      const emojis = ['❤️','🤗','😘','😊'];
+      for (let i = 0; i < count; i++) {
+        const em = document.createElement('div');
+        em.className = 'floating-heart';
+        em.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        em.style.left = (Math.random() * 90 + 5) + '%';
+        em.style.bottom = (Math.random() * 40 + 10) + 'px';
+        em.style.color = '#fff'; // emojis readable on red
+        document.body.appendChild(em);
+        setTimeout(() => em.remove(), 3000);
+      }
+    }
+
+    // Keep popup open on backdrop clicks (close only via heart)
+    document.getElementById('modal-backdrop').addEventListener('click', (e) => {
+      const popup = document.getElementById('popup-message');
+      if (!popup.contains(e.target)) {
+        // Do nothing: prevent backdrop click from closing
+      }
+    });
+  </script>
+</body>
+</html>
